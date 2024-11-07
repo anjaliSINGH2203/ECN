@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In / Sign Up</title>
+    <link rel="stylesheet" href="log.css">
+</head>
+<body>
+
+   
+    <div class="cont">
+        <div class="form sign-in">
+            <h2>Welcome to ECN! Sign in to Get Started</h2>
+            
+            <label>
+                <span>Email</span>
+                <input type="email" id="signInEmail" />
+            </label>
+            <label>
+                <span>Password</span>
+                <input type="password" id="signInPassword" />
+            </label>
+            <p class="forgot-pass">Forgot password?</p>
+            <button type="button" class="submit" onclick="signIn()">Sign In</button>
+        </div>
+
+        <div class="sub-cont">
+            <div class="img">
+                <div class="img__text m--up">
+                    <h3>Don't have an account? Please Sign up!</h3>
+                </div>
+                <div class="img__text m--in">
+                    <h3>If you already have an account, just sign in.</h3>
+                </div>
+                <div class="img__btn">
+                    <span class="m--up">Sign Up</span>
+                    <span class="m--in">Sign In</span>
+                </div>
+            </div>
+
+            <!-- Sign-Up Section -->
+            <div class="form sign-up">
+                <h2>Create your Account</h2>
+                <label>
+                    <span>Name</span>
+                    <input type="text" id="signUpName" />
+                </label>
+                <label>
+                    <span>Email</span>
+                    <input type="email" id="signUpEmail" />
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input type="password" id="signUpPassword" />
+                </label>
+                <button type="button" class="submit" onclick="signUp()">Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toggle Signup / Signin -->
+    <script>
+        document.querySelector('.img__btn').addEventListener('click', function() {
+            document.querySelector('.cont').classList.toggle('s--signup');
+        });
+    </script>
+
+     <!-- Firebase SDK with module type -->
+     <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdX8GARBQ8NWpsRVQuhhv3BQCrLk8WE-w",
+            authDomain: "login-467d5.firebaseapp.com",
+            projectId: "login-467d5",
+            storageBucket: "login-467d5.appspot.com",
+            messagingSenderId: "782108521403",
+            appId: "1:782108521403:web:64b4a9f997f3e540f40a9e",
+            measurementId: "G-4E2SW0ZKWC"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Sign-up function
+        window.signUp = function () {
+            const email = document.getElementById('signUpEmail').value;
+            const password = document.getElementById('signUpPassword').value;
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("Sign-up successful!");
+                    window.location.reload();
+                })
+                .catch((error) => {
+                    console.error(error.message);
+                    alert(error.message);
+                });
+        };
+
+        // Sign-in function
+        window.signIn = function () {
+            const email = document.getElementById('signInEmail').value;
+            const password = document.getElementById('signInPassword').value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    alert("Sign-in successful!");
+                    window.location.href = "../index.html";
+                })
+                .catch((error) => {
+                    console.error(error.message);
+                    alert(error.message);
+                });
+        };
+    </script>
+
+
+</body>
+</html>
